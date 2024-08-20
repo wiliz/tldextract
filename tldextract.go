@@ -172,6 +172,11 @@ func (extract *TLDExtract) getTldIndex(labels []string) (int, bool) {
 		n, found := t.matches[lab]
 		_, starfound := t.matches["*"]
 
+		// CUSTOM 特殊处理.com，否则googleapis.com在tld.cache文件里，会被认识类似com.cn，报错
+	        if i == len(labels) - 1 && lab == "com" {
+	            return i, true
+	        }
+
 		switch {
 		case found && !n.ExceptRule:
 			parentValid = n.ValidTld
