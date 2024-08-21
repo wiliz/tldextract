@@ -173,8 +173,8 @@ func (extract *TLDExtract) getTldIndex(labels []string) (int, bool) {
 		_, starfound := t.matches["*"]
 
 		// CUSTOM 特殊处理.com，否则googleapis.com在tld.cache文件里，会被认识类似com.cn，报错
-	        if i == len(labels) - 1 && lab == "com" {
-	            return i, true
+	        if i == 0 {
+	            found = false
 	        }
 
 		switch {
