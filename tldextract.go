@@ -172,7 +172,11 @@ func (extract *TLDExtract) getTldIndex(labels []string) (int, bool) {
 		n, found := t.matches[lab]
 		_, starfound := t.matches["*"]
 
-		// CUSTOM 特殊处理.com，否则googleapis.com在tld.cache文件里，会被认识类似com.cn，报错
+		// CUSTOM: 修复bug，googleapis.com在tld.cache文件里，会被认识类似com.cn的顶级域名
+		if starfound == true && i == 0 { // 解决：xxx.hosting.ovh.net，tld.cache里对应*.hosting.ovh.net
+			parentValid = true
+			t = n
+		}
 		if i == 0 {
 			found = false
 		}
